@@ -27,7 +27,16 @@ routes.post('/create-appointment', CalendarController.createAppointment);
 */
 routes.put('/update-appointment/:id');
 
-//Rota responsave por deletar um registro
+/**
+* Rota responsavel por deletar um compromisso
+* @returns {}
+*/
 routes.delete('/delete-appointment/:id', CalendarController.deleteAppointment);
+
+/**
+* Rota responsavel por verificar se o evento a ser registrado ja existe
+* @returns {}
+*/
+routes.get('/check-appointment/:hour/:day/:month/:year', CalendarController.checkAppointment);
 
 export default routes;

@@ -8,7 +8,7 @@ import { getCustomRepository } from 'typeorm';
 //interfaces
 import GetByMonth from '../interfaces/GetByMonth';
 import Schedule from '../entities/Schedule';
-import { number } from 'yup/lib/locale';
+import Checked from '../interfaces/Checked';
 
 /**
  * Classe responsavel pelo controle da agenda
@@ -119,7 +119,31 @@ class CalendarController {
         }
     }
 
+    /**
+     * metodo que verifica se ja existe evento registrado
+     * @param request 
+     * @param response 
+     * @returns {}
+     */
     public async checkAppointment(request: any, response: any): Promise<any> {
+
+        const dataJSON: Checked = {
+            hour:   request.params.hour,
+            day:    request.params.day,
+            month:  request.params.month,
+            year:   request.params.year
+        }
+        
+        try {
+            const requestJSON = request.body;
+
+            const scheduleService = new ScheduleService();
+            const result = await scheduleService.checkedAppointment(dataJSON); 
+
+            return response.json(result);
+        } catch (e) {
+            return response.status(400).json({ error: e });
+        }
 
     }
 
