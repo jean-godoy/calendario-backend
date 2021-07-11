@@ -1,0 +1,17 @@
+{
+    "type": "mysql",
+    "host": "localhost",
+    "port": 3306,
+    "username": "root",
+    "password": "123",
+    "database": "calendar",
+    "entities": [
+        "./src/entities/*.ts"
+    ],
+    "migrations": [
+        "./src/migrations/*.ts"
+    ],
+    "cli": {
+        "migrationsDir": "./src/migrations"
+    }
+}
