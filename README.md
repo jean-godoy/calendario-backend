@@ -5,7 +5,7 @@ crie um arquivo .env e inclua
 NODE_ENV=development
 PORT=3333
 
-
+DB MySQL
 Cria uma base de dados chamada calendar
 confirue as Db no ormconfig.json
 
