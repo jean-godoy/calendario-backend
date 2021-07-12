@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+import { Request, Response } from 'express';
 
 import ScheduleService from '../services/ScheduleService';
 import ScheduleRepository from '../repositories/ScheduleRepository';
@@ -21,9 +22,9 @@ class CalendarController {
      * @param response 
      * @returns {}
      */
-    public async showAll(request: any, response: any): Promise<Schedule[]> {
-        const scheduleRepository = getCustomRepository(ScheduleRepository);
-        const schedules = await scheduleRepository.find();
+    public async showAll(request: Request, response: Response): Promise<Response> {
+        const scheduleService = new ScheduleService();
+        const schedules = await scheduleService.showAll();
 
         return response.json(schedules);
     }
@@ -34,7 +35,7 @@ class CalendarController {
      * @param response 
      * @returns 
      */
-    public async getAppointments(request: any, response: any): Promise<Schedule> {
+    public async getAppointments(request: Request, response: Response): Promise<Response> {
         const scheduleService = new ScheduleService();
         let data: GetByMonth = {
             month: parseInt(request.params.month),
@@ -50,9 +51,9 @@ class CalendarController {
      * Metodo para inserção de novo registro
      * @returns {}
      */
-    public async createAppointment(request: any, response: any): Promise<any> {
+    public async createAppointment(request: Request, response: Response): Promise<Response> {
 
-        //cria uma validação no post
+        //cria uma validação no request
         const schema = Yup.object().shape({
             description: Yup.string().required(),
             hour: Yup.number().required(),
@@ -82,9 +83,9 @@ class CalendarController {
      * metodo responsavel pela edição de um compromisso
      * @param request 
      * @param response 
-     * @returns 
+     * @returns {}
      */
-    public async updateAppointment(request: any, response: any): Promise<any> {
+    public async updateAppointment(request: Request, response: Response): Promise<Response> {
         try {
             // recupera o id do compromisso
             const id = request.params.id;
@@ -104,8 +105,9 @@ class CalendarController {
      * Metodo resopnsavel por deletar um registro
      * @param request 
      * @param response 
+     * @returns {}
      */
-    public async deleteAppointment(request: any, response: any): Promise<any> {
+    public async deleteAppointment(request: Request, response: Response): Promise<Response> {
         try {
             // recupera o id do compromisso
             const id = request.params.id;
@@ -125,13 +127,13 @@ class CalendarController {
      * @param response 
      * @returns {}
      */
-    public async checkAppointment(request: any, response: any): Promise<any> {
+    public async checkAppointment(request: Request, response: Response): Promise<Response> {
 
         const dataJSON: Checked = {
-            hour:   request.params.hour,
-            day:    request.params.day,
-            month:  request.params.month,
-            year:   request.params.year
+            hour:   parseInt(request.params.hour),
+            day:    parseInt(request.params.day),
+            month:  parseInt(request.params.month),
+            year:   parseInt(request.params.year)
         }
         
         try {

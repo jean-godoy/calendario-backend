@@ -14,10 +14,12 @@ class ScheduleService {
      * Resorna todos resultados listados
      * @returns {}
      */
-    // public async showAll(): Promise<any> {
-    //     const schedules = await this.scheduleRepository.find();
-    //     return schedules;
-    // }
+    public async showAll(): Promise<any> {
+        const scheduleRepository = getCustomRepository(ScheduleRepository);
+        const appointments = await scheduleRepository.find();
+
+        return appointments;
+    }
 
     /**
      * Cadastra novo compromisso na agenda
@@ -74,12 +76,12 @@ class ScheduleService {
         const scheduleRepository = getCustomRepository(ScheduleRepository);
 
         let scheduleUpdate: any = await scheduleRepository.findOne(id);
-        scheduleUpdate?.description = data.description;
-        scheduleUpdate?.hour = data.hour;
-        scheduleUpdate?.day = data.day;
-        scheduleUpdate?.month = data.month;
-        scheduleUpdate?.year = data.year;
-        scheduleUpdate?.updated_at = now.toString();
+        scheduleUpdate.description = data.description;
+        scheduleUpdate.hour = data.hour;
+        scheduleUpdate.day = data.day;
+        scheduleUpdate.month = data.month;
+        scheduleUpdate.year = data.year;
+        scheduleUpdate.updated_at = now.toString();
 
         await scheduleRepository.save(scheduleUpdate);
         return scheduleUpdate;
